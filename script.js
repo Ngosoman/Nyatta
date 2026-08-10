@@ -600,7 +600,7 @@ const rentals = [
     county: "Taita-Taveta",
     location: "Werugha, Kese",
     manager: "Elizabeth Mwakori",
-    units: 6,
+    units: 10,
     status: "Not Functional",
     asAt: "02/08/2026",
     note:
