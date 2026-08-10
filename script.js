@@ -371,7 +371,7 @@ const parcels = [
     no: 20,
     title: "PLOT NO. 29",
     county: "Kese/Kitegue",
-    location: "Kese/Kitegue",
+    location: "Kese/Kiteghe",
     registeredTo: "Mwasi Nyatta",
     status: "unknown",
     statusLabel: "No Title Deed",
