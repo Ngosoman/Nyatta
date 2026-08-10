@@ -9,11 +9,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="auth-locked">
+<section class="auth-gate" id="authGate" aria-labelledby="authTitle">
+  <div class="auth-card">
+    <div class="auth-kicker">Private Access</div>
+    <h1 id="authTitle">Nyatta Real Database</h1>
+    <p>Enter your password to access the register.</p>
+    <form id="authForm" autocomplete="off">
+      <label for="accessPassword">Password</label>
+      <input id="accessPassword" type="password" placeholder="Enter password" required>
+      <button type="submit">Access register</button>
+      <div class="auth-message" id="authMessage" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+<div class="welcome-banner" id="welcomeBanner" role="status" aria-live="polite" hidden></div>
 <header class="site">
   <a class="brand" href="#overview"><span class="seal">N</span> Nyatta Real Database</a>
   <nav><a class="nav-link active" href="#overview">Overview</a><a class="nav-link" href="#lands">Lands</a><a class="nav-link" href="#investments">Investments</a><a class="nav-link" href="#rentals">Rentals</a></nav>
-  <span class="site-count" id="headerCount">21 land records</span>
+  <div class="site-tools">
+    <span class="site-count" id="headerCount">21 land records</span>
+    <button class="signout-btn" id="signOutBtn" type="button" hidden>Sign out</button>
+  </div>
 </header>
 
 <section class="hero paper-texture" id="overview">

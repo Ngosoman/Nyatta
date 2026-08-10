@@ -403,6 +403,122 @@ const parcels = [
 ];
 
 
+const accessUsers = {
+  "Mwashuma@2026": "Mwashuma",
+  "Inosi@2026": "Inosi",
+  "Tom@2026": "Tom"
+};
+
+const authSessionKey = "nyattaAuthorizedUser";
+
+
+function showWelcome(name) {
+  const banner = document.getElementById("welcomeBanner");
+  if (!banner) {
+    return;
+  }
+
+  banner.textContent = `Hello ${name}. Welcome to the Nyatta Real Database.`;
+  banner.hidden = false;
+
+  setTimeout(() => {
+    banner.hidden = true;
+  }, 5000);
+}
+
+
+function unlockRegister(name) {
+  document.body.classList.remove("auth-locked");
+  const signOutBtn = document.getElementById("signOutBtn");
+  if (signOutBtn) {
+    signOutBtn.hidden = false;
+  }
+  showWelcome(name);
+}
+
+
+function lockRegister() {
+  document.body.classList.add("auth-locked");
+
+  const signOutBtn = document.getElementById("signOutBtn");
+  if (signOutBtn) {
+    signOutBtn.hidden = true;
+  }
+
+  const banner = document.getElementById("welcomeBanner");
+  if (banner) {
+    banner.hidden = true;
+  }
+
+  const message = document.getElementById("authMessage");
+  if (message) {
+    message.className = "auth-message";
+    message.textContent = "";
+  }
+
+  const input = document.getElementById("accessPassword");
+  if (input) {
+    input.value = "";
+    input.focus();
+  }
+
+  window.scrollTo({
+    top: 0,
+    behavior: "auto"
+  });
+}
+
+
+function initSignOut() {
+  const signOutBtn = document.getElementById("signOutBtn");
+  if (!signOutBtn) {
+    return;
+  }
+
+  signOutBtn.addEventListener("click", () => {
+    sessionStorage.removeItem(authSessionKey);
+    lockRegister();
+  });
+}
+
+
+function initAccessGate() {
+  const form = document.getElementById("authForm");
+  const input = document.getElementById("accessPassword");
+  const message = document.getElementById("authMessage");
+  if (!form || !input || !message) {
+    return;
+  }
+
+  const savedUser = sessionStorage.getItem(authSessionKey);
+  if (savedUser) {
+    unlockRegister(savedUser);
+    return;
+  }
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    const userName = accessUsers[input.value.trim()];
+    if (!userName) {
+      message.className = "auth-message bad";
+      message.textContent = "Password not recognized. Please try again.";
+      input.value = "";
+      input.focus();
+      return;
+    }
+
+    message.className = "auth-message ok";
+    message.textContent = `Access granted. Hello ${userName}.`;
+    sessionStorage.setItem(authSessionKey, userName);
+
+    setTimeout(() => {
+      unlockRegister(userName);
+    }, 500);
+  });
+}
+
+
 const statusMeta = {
   clean: {
     label: "Clean",
@@ -1031,6 +1147,8 @@ document
   );
 
 
+initAccessGate();
+initSignOut();
 stats();
 chips();
 renderLands();
