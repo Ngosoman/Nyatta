@@ -412,18 +412,14 @@ const accessUsers = {
 const authSessionKey = "nyattaAuthorizedUser";
 
 
-function showWelcome(name) {
-  const banner = document.getElementById("welcomeBanner");
-  if (!banner) {
+function setLoggedInUser(name) {
+  const userEl = document.getElementById("loggedInUser");
+  if (!userEl) {
     return;
   }
 
-  banner.textContent = `Hello ${name}. Welcome to the Nyatta Real Database.`;
-  banner.hidden = false;
-
-  setTimeout(() => {
-    banner.hidden = true;
-  }, 5000);
+  userEl.textContent = `Logged in as: ${name}`;
+  userEl.hidden = false;
 }
 
 
@@ -433,7 +429,7 @@ function unlockRegister(name) {
   if (signOutBtn) {
     signOutBtn.hidden = false;
   }
-  showWelcome(name);
+  setLoggedInUser(name);
 }
 
 
@@ -445,9 +441,10 @@ function lockRegister() {
     signOutBtn.hidden = true;
   }
 
-  const banner = document.getElementById("welcomeBanner");
-  if (banner) {
-    banner.hidden = true;
+  const userEl = document.getElementById("loggedInUser");
+  if (userEl) {
+    userEl.hidden = true;
+    userEl.textContent = "";
   }
 
   const message = document.getElementById("authMessage");
@@ -465,6 +462,24 @@ function lockRegister() {
   window.scrollTo({
     top: 0,
     behavior: "auto"
+  });
+}
+
+
+function initPasswordToggle() {
+  const input = document.getElementById("accessPassword");
+  const btn = document.getElementById("togglePasswordBtn");
+  if (!input || !btn) {
+    return;
+  }
+
+  btn.addEventListener("click", () => {
+    const isHidden = input.type === "password";
+    input.type = isHidden ? "text" : "password";
+    btn.textContent = isHidden ? "Hide" : "Show";
+    btn.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
+    btn.setAttribute("aria-pressed", isHidden ? "true" : "false");
+    input.focus();
   });
 }
 
@@ -1149,6 +1164,7 @@ document
 
 initAccessGate();
 initSignOut();
+initPasswordToggle();
 stats();
 chips();
 renderLands();
