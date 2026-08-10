@@ -414,12 +414,15 @@ const authSessionKey = "nyattaAuthorizedUser";
 
 function setLoggedInUser(name) {
   const userEl = document.getElementById("loggedInUser");
-  if (!userEl) {
+  const greetingEl = document.getElementById("loggedInGreeting");
+  if (!userEl || !greetingEl) {
     return;
   }
 
   userEl.textContent = `Logged in as: ${name}`;
   userEl.hidden = false;
+  greetingEl.textContent = `Hello ${name}, welcome to the Nyatta Real Database.`;
+  greetingEl.hidden = false;
 }
 
 
@@ -445,6 +448,12 @@ function lockRegister() {
   if (userEl) {
     userEl.hidden = true;
     userEl.textContent = "";
+  }
+
+  const greetingEl = document.getElementById("loggedInGreeting");
+  if (greetingEl) {
+    greetingEl.hidden = true;
+    greetingEl.textContent = "";
   }
 
   const message = document.getElementById("authMessage");
